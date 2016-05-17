@@ -8,7 +8,7 @@ paj_email = 'paj+pypi@johnsy.com'
 
 setup(
     name='sparse_list',
-    py_modules=['sparse_list'],
+    py_modules=['sparse_list', 'sparse_vector'],
     version=version,
     description='A list where most (>95%) values will be None (or default)',
     author=paj,

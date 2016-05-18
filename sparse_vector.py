@@ -6,6 +6,7 @@ than 95% of) values will be None (or some other default) and for reasons
 of memory efficiency you don't wish to store these. cf. Sparse array:
 
     http://en.wikipedia.org/wiki/Sparse_array
+
 """
 
 import numpy as np
@@ -26,7 +27,7 @@ class SparseVector(object):
         Any object that can be interpreted as a numpy data type.
     """
 
-    def __init__(self, arg, default_value=None, size=None, dtype=np.float):
+    def __init__(self, arg, default_value=0, size=None, dtype=np.float):
         self.default = default_value
         self.dtype = dtype
         self.indices = np.array([], dtype=np.int)
@@ -166,6 +167,8 @@ class SparseVector(object):
         return np.where(np.in1d(self.indices, indices))[0]
 
     def __internal_index_of_index(self, index):
+        if index < 0:
+            index += self.size
         k = np.where(self.indices == index)[0]
         return k[0] if k.size > 0 else None
 

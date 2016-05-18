@@ -126,7 +126,6 @@ class SparseVector(object):
             self.__delitem__(index)
 
     def __iter__(self):
-        # todo: how about not densifying ?
         return np.nditer(self.densify())
 
     def __contains__(self, value):
@@ -194,6 +193,15 @@ class SparseVector(object):
             result += self[:]
         return result
 
+    def iter(self):
+        """
+        Return a sparse iterator that will not densify. Very slow. VERY.
+        """
+        i = 0
+        while i < self.size:
+            yield self[i]
+            i += 1
+
     def densify(self):
         """
         Return a dense representation of this vector, as a `numpy.ndarray` of
@@ -231,13 +239,14 @@ class SparseVector(object):
     def index(self, value):
         """
         Return the first found index of `value`.
-        Caveat : densifies because of how self.__iter__ is implemented.
         Raises ValueError when the value is not present.
         """
         if value == self.default:
-            for k, v in enumerate(self):
-                if v == value:
-                    return k
+            i = 0
+            while i < self.size:
+                if self[i] == value:
+                    return i
+                i += 1
         else:
             i = self.__internal_index_of_value(value)
             if i is not None:

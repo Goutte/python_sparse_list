@@ -7,7 +7,7 @@ from sparse_vector import SparseVector
 
 class BenchmarkAbstract(benchmark.Benchmark):
 
-    each = 3          # number of runs
+    each = 10            # number of runs
     full_size = 1000000  # total size of sparse lists and vectors
     data_size = 10000    # actual data size of sparse lists and vectors
 
@@ -77,6 +77,21 @@ class BenchmarkDensify(BenchmarkAbstract):
 
     def test_vector_densify_with_densify(self):
         self.sv.densify()
+
+
+class BenchmarkIterate(BenchmarkAbstract):
+
+    def test_list_iterate(self):
+        for k, v in enumerate(self.sl):
+            pass
+
+    def test_vector_iterate(self):
+        for k, v in enumerate(self.sv):
+            pass
+
+    def test_vector_iterate_sparsely(self):
+        for k, v in enumerate(self.sv.iter()):
+            pass
 
 
 if __name__ == '__main__':
